@@ -1,6 +1,7 @@
-package Interface;
+package Game;
 
-import Environment.Aspiro;
+import Environment.Map;
+import Robot.Aspiro;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.*;
  */
 public class GamePanel extends JPanel {
     private Map mapPanel;
+    private Stats statPanel;
 
     public GamePanel() {
         this.setRequestFocusEnabled(true);
@@ -21,7 +23,9 @@ public class GamePanel extends JPanel {
         this.add(mapPanel);
         mapPanel.setLocation(0, 0);
 
-        //Ajouter les infos
+        statPanel = new Stats();
+        this.add(statPanel);
+        statPanel.setLocation(0, 400);
     }
 
     public void AddAspiro(Aspiro aspiro) {
@@ -30,5 +34,6 @@ public class GamePanel extends JPanel {
 
     public void repaintGame() {
         mapPanel.repaint();
+        statPanel.repaint();
     }
 }

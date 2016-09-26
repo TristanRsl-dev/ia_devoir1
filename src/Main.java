@@ -1,6 +1,6 @@
-import Interface.GameManager;
-import Interface.GamePanel;
-import Interface.Window;
+import Game.GameManager;
+import Game.GamePanel;
+import Game.Window;
 
 /**
  * Created by tristan on 22/09/16.
@@ -12,6 +12,6 @@ public class Main {
         GameManager gameManager = new GameManager(gamePanel);
         gameManager.start();
 
-        Window window = new Window(gamePanel);
+        new Window(gamePanel);
     }
 }
