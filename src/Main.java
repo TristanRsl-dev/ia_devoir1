@@ -1,3 +1,4 @@
+import Environment.EnvironmentManager;
 import Game.GameManager;
 import Game.GamePanel;
 import Game.Window;
@@ -11,6 +12,9 @@ public class Main {
 
         GameManager gameManager = new GameManager(gamePanel);
         gameManager.start();
+
+        EnvironmentManager environmentManager = new EnvironmentManager(gamePanel);
+        environmentManager.start();
 
         new Window(gamePanel);
     }

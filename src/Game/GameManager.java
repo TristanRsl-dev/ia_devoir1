@@ -20,8 +20,14 @@ public class GameManager extends Thread {
 
     @Override
     public void run() {
+        int pick = 0;
+        int aspir = 0;
         while (true) {
-            ia.Move();
+            pick = ia.PickUp();
+            if (pick != 2)
+                aspir = ia.Aspirate();
+            if (pick == 0 && aspir == 0)
+                ia.Move();
             gamePanel.repaintGame();
             try {
                 Thread.sleep(1000);

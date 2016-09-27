@@ -3,6 +3,7 @@ package Game;
 import javax.swing.*;
 import java.awt.*;
 
+import Environment.Map;
 import Robot.Information;
 
 /**
@@ -10,7 +11,7 @@ import Robot.Information;
  */
 public class Stats extends JPanel {
     public Stats() {
-        this.setSize(900, 100);
+        this.setSize(Map.MAPW, 50);
         this.setBackground(Color.BLACK);
         this.setForeground(Color.WHITE);
         this.setLayout(null);
@@ -21,6 +22,8 @@ public class Stats extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        g2.drawString("Energie dépensée: " + Integer.toString(Information.getEnergy()), 20, 20);
+        g2.drawString("Energie dépensée: " + Integer.toString(Information.getEnergy()), 20, 15);
+        g2.drawString("Blocs de poussière aspirés: " + Integer.toString(Information.getDirt()), 200, 15);
+        g2.drawString("Bijoux ramassés: " + Integer.toString(Information.getJewelry()), 420, 15);
     }
 }

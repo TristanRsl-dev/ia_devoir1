@@ -1,39 +1,53 @@
 package Robot;
 
 import Environment.Map;
+import Tools.Tile;
+import Tools.TileType;
+
+import java.util.ArrayList;
 
 /**
  * Created by tristan on 26/09/16.
  */
 public class IA {
     private Aspiro aspiro;
+    private ArrayList<ArrayList> map;
 
     public IA(Aspiro aspiro) {
         this.aspiro = aspiro;
+        map = Map.getMap();
     }
 
     public void Move() {
         switch (aspiro.getDir()) {
             case "up":
-                if (aspiro.getPosY() - aspiro.getBox().getHeight() >= 0)
+                int newpos = aspiro.getPosY() - (int)aspiro.getBox().getHeight();
+                if (newpos >= 0 && ((Tile)map.get(newpos / 150).get(aspiro.getPosX() / 150)).getType()
+                        != TileType.TileTypes.wall)
                     aspiro.Move("up");
                 else
                     FindDirection("up");
                 break;
             case "right":
-                if (aspiro.getPosX() + aspiro.getBox().getWidth() < Map.MAPW)
+                newpos = aspiro.getPosX() + (int)aspiro.getBox().getWidth();
+                if (newpos < Map.MAPW && ((Tile)map.get(aspiro.getPosY() / 150).get(newpos / 150)).getType()
+                        != TileType.TileTypes.wall)
                     aspiro.Move("right");
                 else
                     FindDirection("right");
                 break;
             case "down":
-                if (aspiro.getPosY() + aspiro.getBox().getHeight() < Map.MAPH)
+                newpos = aspiro.getPosY() + (int)aspiro.getBox().getHeight();
+                if (newpos < Map.MAPH && ((Tile)map.get(newpos / 150).get(aspiro.getPosX() / 150)).getType()
+                        != TileType.TileTypes.wall)
                     aspiro.Move("down");
                 else
                     FindDirection("down");
                 break;
             default:
-                if (aspiro.getPosX() - aspiro.getBox().getWidth() >= 0)
+                newpos = aspiro.getPosX() - (int)aspiro.getBox().getWidth();
+                if (newpos >= 0 && ((Tile)map.get(aspiro.getPosY() / 150).get(newpos / 150)).getType()
+                        != TileType.TileTypes.wall)
                     aspiro.Move("left");
                 else
                     FindDirection("left");
@@ -49,11 +63,32 @@ public class IA {
         Move();
     }
 
-    public void Aspirate() {
-
+    public int Aspirate() {
+        if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
+                == TileType.TileTypes.dirt) {
+            Information.incEnergy();
+            Information.incDirt();
+            ((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).setType(TileType.TileTypes.clean);
+            return 1;
+        }
+        return 0;
     }
 
-    public void PickUp() {
-
+    public int PickUp() {
+        if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
+                == TileType.TileTypes.dirtjewelry) {
+            Information.incEnergy();
+            Information.incJewelry();
+            ((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).setType(TileType.TileTypes.dirt);
+            return 2;
+        }
+        else if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
+                == TileType.TileTypes.jewelry) {
+            Information.incEnergy();
+            Information.incJewelry();
+            ((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).setType(TileType.TileTypes.clean);
+            return 1;
+        }
+        return 0;
     }
 }

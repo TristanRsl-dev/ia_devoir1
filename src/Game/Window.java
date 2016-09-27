@@ -1,5 +1,6 @@
 package Game;
 
+import Environment.Map;
 import Game.GamePanel;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import javax.swing.*;
  * Created by tristan on 22/09/16.
  */
 public class Window extends JFrame {
-    public static final int WIDTH = 1000;
+    public static final int WIDTH = Map.MAPW;
     public static final int HEIGHT = 500;
 
     public Window(GamePanel gamePanel) {

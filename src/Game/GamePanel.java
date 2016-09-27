@@ -20,12 +20,13 @@ public class GamePanel extends JPanel {
         this.setBackground(Color.BLACK);
 
         mapPanel = new Map();
+        mapPanel.Parse();
         this.add(mapPanel);
         mapPanel.setLocation(0, 0);
 
         statPanel = new Stats();
         this.add(statPanel);
-        statPanel.setLocation(0, 400);
+        statPanel.setLocation(0, Map.MAPH);
     }
 
     public void AddAspiro(Aspiro aspiro) {
@@ -35,5 +36,9 @@ public class GamePanel extends JPanel {
     public void repaintGame() {
         mapPanel.repaint();
         statPanel.repaint();
+    }
+
+    public Map getMap() {
+        return mapPanel;
     }
 }

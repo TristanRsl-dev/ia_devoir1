@@ -26,7 +26,7 @@ public class Aspiro {
 
     public Aspiro() {
         try {
-            pic = ImageIO.read(getClass().getResource("../Resources/aspiro.jpg"));
+            pic = ImageIO.read(getClass().getResource("../Resources/aspiro.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
