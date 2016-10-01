@@ -23,6 +23,7 @@ public class Map extends JPanel {
     private static ArrayList<ArrayList> list;
     private ArrayList tiles_pics;
 
+    //static size map
     public static final int MAPW = 750;
     public static final int MAPH = 450;
 

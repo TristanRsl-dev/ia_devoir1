@@ -4,6 +4,7 @@ import Environment.Map;
 import Game.GamePanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by tristan on 22/09/16.
@@ -15,11 +16,15 @@ public class Window extends JFrame {
     public Window(GamePanel gamePanel) {
         this.setSize(WIDTH, HEIGHT);
         this.setTitle("Aspirobot T-0.1");
-        this.setVisible(true);
+
         this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         this.add(gamePanel);
 
-        gamePanel.grabFocus();
-        gamePanel.requestFocusInWindow();
+
+        //gamePanel.grabFocus();
+        //gamePanel.requestFocusInWindow();
+        this.setVisible(true);
     }
 }

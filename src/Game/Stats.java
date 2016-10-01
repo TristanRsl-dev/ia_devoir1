@@ -21,9 +21,9 @@ public class Stats extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-
-        g2.drawString("Energie dépensée: " + Integer.toString(Information.getEnergy()), 20, 15);
-        g2.drawString("Blocs de poussière aspirés: " + Integer.toString(Information.getDirt()), 200, 15);
-        g2.drawString("Bijoux ramassés: " + Integer.toString(Information.getJewelry()), 420, 15);
+        Information information = Information.getInstance();
+        g2.drawString("Energie dépensée: " + Integer.toString(information.getEnergy()), 20, 15);
+        g2.drawString("Blocs de poussière aspirés: " + Integer.toString(information.getDirt()), 200, 15);
+        g2.drawString("Bijoux ramassés: " + Integer.toString(information.getJewelry()), 420, 15);
     }
 }

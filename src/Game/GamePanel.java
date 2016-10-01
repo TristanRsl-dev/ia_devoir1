@@ -27,6 +27,7 @@ public class GamePanel extends JPanel {
         statPanel = new Stats();
         this.add(statPanel);
         statPanel.setLocation(0, Map.MAPH);
+        
     }
 
     public void AddAspiro(Aspiro aspiro) {

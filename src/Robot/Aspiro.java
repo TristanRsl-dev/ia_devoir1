@@ -10,10 +10,14 @@ import java.io.IOException;
 /**
  * Created by tristan on 22/09/16.
  */
+//singleton
+
 public class Aspiro {
+    private static Aspiro aspiro;
     private BufferedImage pic;
     private Couple pos;
     private Rectangle box;
+    private Information information;
 
     public enum Direction {
         up,
@@ -24,7 +28,14 @@ public class Aspiro {
 
     private String direction;
 
-    public Aspiro() {
+    public static Aspiro GetInstance(){
+        if(null == aspiro){
+            aspiro = new Aspiro();
+        }
+        return aspiro;
+    }
+
+    private Aspiro() {
         try {
             pic = ImageIO.read(getClass().getResource("../Resources/aspiro.png"));
         } catch (IOException e) {
@@ -33,6 +44,7 @@ public class Aspiro {
         pos = new Couple(0, 0);
         box = new Rectangle((int)pos.getX(), (int)pos.getY(), pic.getWidth(), pic.getHeight());
         direction = Direction.right.name();
+        information = Information.getInstance();
     }
 
     public BufferedImage getPic() {
@@ -70,7 +82,7 @@ public class Aspiro {
                 direction = Direction.left.name();
                 break;
         }
-        Information.incEnergy();
+        information.incEnergy();
     }
 
     public String getDir() {

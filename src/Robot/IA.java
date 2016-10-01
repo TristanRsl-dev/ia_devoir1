@@ -12,10 +12,12 @@ import java.util.ArrayList;
 public class IA {
     private Aspiro aspiro;
     private ArrayList<ArrayList> map;
+    private  Information information;
 
     public IA(Aspiro aspiro) {
         this.aspiro = aspiro;
         map = Map.getMap();
+        information = Information.getInstance();
     }
 
     public void Move() {
@@ -64,28 +66,30 @@ public class IA {
     }
 
     public int Aspirate() {
+
         if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
                 == TileType.TileTypes.dirt) {
-            Information.incEnergy();
-            Information.incDirt();
+            information.incEnergy();
+            information.incDirt();
             ((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).setType(TileType.TileTypes.clean);
             return 1;
         }
         return 0;
     }
 
+    //si ya juste de la saleter
     public int PickUp() {
         if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
                 == TileType.TileTypes.dirtjewelry) {
-            Information.incEnergy();
-            Information.incJewelry();
+            information.incEnergy();
+            information.incJewelry();
             ((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).setType(TileType.TileTypes.dirt);
             return 2;
         }
         else if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
                 == TileType.TileTypes.jewelry) {
-            Information.incEnergy();
-            Information.incJewelry();
+            information.incEnergy();
+            information.incJewelry();
             ((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).setType(TileType.TileTypes.clean);
             return 1;
         }

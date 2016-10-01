@@ -12,7 +12,7 @@ public class GameManager extends Thread {
     private IA ia;
 
     public GameManager(GamePanel gamePanel) {
-        this.aspiro = new Aspiro();
+        this.aspiro = Aspiro.GetInstance();
         this.gamePanel = gamePanel;
         this.gamePanel.AddAspiro(aspiro);
         ia = new IA(aspiro);
