@@ -5,9 +5,11 @@ package Tools;
  */
 public class Tile {
     private TileType.TileTypes type;
+    private int quantity;
 
     public Tile (TileType.TileTypes type) {
         this.type = type;
+        quantity = 0;
     }
 
     public void setType(TileType.TileTypes type) {
@@ -16,5 +18,17 @@ public class Tile {
 
     public TileType.TileTypes getType() {
         return type;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void incQuantity() {
+        quantity++;
+    }
+
+    public void decQuantity() {
+        quantity--;
     }
 }

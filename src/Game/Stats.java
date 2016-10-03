@@ -2,6 +2,7 @@ package Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Arc2D;
 
 import Environment.Map;
 import Robot.Information;
@@ -22,8 +23,8 @@ public class Stats extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         Information information = Information.getInstance();
-        g2.drawString("Energie dépensée: " + Integer.toString(information.getEnergy()), 20, 15);
-        g2.drawString("Blocs de poussière aspirés: " + Integer.toString(information.getDirt()), 200, 15);
-        g2.drawString("Bijoux ramassés: " + Integer.toString(information.getJewelry()), 420, 15);
+        g2.drawString("Energie dépensée: " + Integer.toString(information.getEnergy()), 20, 18);
+        g2.drawString("Blocs de poussière aspirés: " + Integer.toString(information.getDirt()), 200, 18);
+        g2.drawString("Bijoux ramassés: " + Integer.toString(information.getJewelry()), 420, 18);
     }
 }
