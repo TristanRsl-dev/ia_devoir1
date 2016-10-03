@@ -66,12 +66,14 @@ public class IA {
     }
 
     public int Aspirate() {
-
-        if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
+        Tile tile = (Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150);
+        if (tile.getType()
                 == TileType.TileTypes.dirt) {
             information.incEnergy();
             information.incDirt();
-            ((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).setType(TileType.TileTypes.clean);
+            tile.decQuantity();
+            if (tile.getQuantity() == 0)
+                tile.setType(TileType.TileTypes.clean);
             return 1;
         }
         return 0;
