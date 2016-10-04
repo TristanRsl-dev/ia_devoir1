@@ -58,24 +58,35 @@ public class Map extends JPanel {
 
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 3; ++j) {
-                if (((Tile)list.get(j).get(i)).getType() == TileType.TileTypes.wall) {
+                Tile tile = (Tile)list.get(j).get(i);
+                if (tile.getType() == TileType.TileTypes.wall) {
                     for (int k = 0; k < 150; ++k)
                         g2.drawLine(i*aspiro.getBox().width + k, j*aspiro.getBox().height,
                                 i*aspiro.getBox().width + k, (j + 1)*aspiro.getBox().height);
                 }
-                else if (((Tile)list.get(j).get(i)).getType() == TileType.TileTypes.dirt) {
+                else if (tile.getType() == TileType.TileTypes.dirt) {
                     g2.drawImage((BufferedImage)tiles_pics.get(0), i*aspiro.getBox().width,
                             j*aspiro.getBox().height, null);
+                    Color c = g2.getColor();
+                    g2.setColor(Color.RED);
+                    g2.drawString(Integer.toString(tile.getQuantity()), i*aspiro.getBox().width + 25,
+                            j*aspiro.getBox().height + 15);
+                    g2.setColor(c);
                 }
-                else if (((Tile)list.get(j).get(i)).getType() == TileType.TileTypes.jewelry) {
+                else if (tile.getType() == TileType.TileTypes.jewelry) {
                     g2.drawImage((BufferedImage)tiles_pics.get(1), i*aspiro.getBox().width,
                             j*aspiro.getBox().height, null);
                 }
-                else if (((Tile)list.get(j).get(i)).getType() == TileType.TileTypes.dirtjewelry) {
+                else if (tile.getType() == TileType.TileTypes.dirtjewelry) {
                     g2.drawImage((BufferedImage)tiles_pics.get(0), i*aspiro.getBox().width,
                             j*aspiro.getBox().height, null);
                     g2.drawImage((BufferedImage)tiles_pics.get(1), i*aspiro.getBox().width,
                             j*aspiro.getBox().height, null);
+                    Color c = g2.getColor();
+                    g2.setColor(Color.RED);
+                    g2.drawString(Integer.toString(tile.getQuantity()), i*aspiro.getBox().width + 25,
+                            j*aspiro.getBox().height + 15);
+                    g2.setColor(c);
                 }
             }
         }
@@ -102,20 +113,27 @@ public class Map extends JPanel {
         int i = random.nextInt(5);
         int j = random.nextInt(3);
         int jord = random.nextInt();
-        if (((Tile)list.get(j).get(i)).getType() == TileType.TileTypes.wall)
+        Tile tile = (Tile)list.get(j).get(i);
+        if (tile.getType() == TileType.TileTypes.wall)
             DropDirtJewelry();
         else {
-            if (jord % 15 == 0) {
-                if (((Tile)list.get(j).get(i)).getType() == TileType.TileTypes.dirt)
-                    ((Tile) list.get(j).get(i)).setType(TileType.TileTypes.dirtjewelry);
+            if (jord % 10 == 0) {
+                if (tile.getType() == TileType.TileTypes.dirt)
+                    tile.setType(TileType.TileTypes.dirtjewelry);
                 else
-                    ((Tile) list.get(j).get(i)).setType(TileType.TileTypes.jewelry);
+                    tile.setType(TileType.TileTypes.jewelry);
             }
             else {
-                if (((Tile) list.get(j).get(i)).getType() == TileType.TileTypes.jewelry)
-                    ((Tile) list.get(j).get(i)).setType(TileType.TileTypes.dirtjewelry);
-                else
-                    ((Tile) list.get(j).get(i)).setType(TileType.TileTypes.dirt);
+                if (tile.getType() == TileType.TileTypes.jewelry) {
+                    tile.setType(TileType.TileTypes.dirtjewelry);
+                    tile.incQuantity();
+                }
+                else if (tile.getType() == TileType.TileTypes.dirtjewelry)
+                    tile.incQuantity();
+                else {
+                    tile.setType(TileType.TileTypes.dirt);
+                    tile.incQuantity();
+                }
             }
 
         }
