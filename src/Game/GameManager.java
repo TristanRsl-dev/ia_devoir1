@@ -27,7 +27,7 @@ public class GameManager extends Thread {
             if (pick != 2)
                 aspir = ia.Aspirate();
             if (pick == 0 && aspir == 0)
-                ia.Move();
+                ia.Move(gamePanel);
             gamePanel.repaintGame();
             try {
                 Thread.sleep(1000);

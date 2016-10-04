@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by tristan on 22/09/16.
@@ -18,6 +20,10 @@ public class Aspiro {
     private Couple pos;
     private Rectangle box;
     private Information information;
+    private String direction;
+    private int[][] map;
+    private int posListx;
+    private int posListy;
 
     public enum Direction {
         up,
@@ -26,7 +32,7 @@ public class Aspiro {
         left
     }
 
-    private String direction;
+
 
     public static Aspiro GetInstance(){
         if(null == aspiro){
@@ -45,6 +51,23 @@ public class Aspiro {
         box = new Rectangle((int)pos.getX(), (int)pos.getY(), pic.getWidth(), pic.getHeight());
         direction = Direction.right.name();
         information = Information.getInstance();
+        map = new int[3][5];
+        instanciateMap();
+        posListx = 0;
+        posListy = 0;
+
+    }
+
+    private void instanciateMap() {
+        for(int i= 0;map.length>i;i++){
+            for (int y= 0;map[i].length>y;y++){
+                if((0==i || 2==i) && (3==y || 4==y)){
+                    map[i][y]= -1;
+                }else {
+                    map[i][y] = 0;
+                }
+            }
+        }
     }
 
     public BufferedImage getPic() {
@@ -91,5 +114,29 @@ public class Aspiro {
 
     public void setDir(String direction) {
         this.direction = direction;
+    }
+
+    public int[][] getMap() {
+        return map;
+    }
+
+    public void setMap(int[][] map) {
+        this.map = map;
+    }
+
+    public int getPosListx() {
+        return posListx;
+    }
+
+    public void setPosListx(int posListx) {
+        this.posListx = posListx;
+    }
+
+    public int getPosListy() {
+        return posListy;
+    }
+
+    public void setPosListy(int posListy) {
+        this.posListy = posListy;
     }
 }

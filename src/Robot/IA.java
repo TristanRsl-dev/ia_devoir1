@@ -1,10 +1,14 @@
 package Robot;
 
 import Environment.Map;
+import Game.GamePanel;
 import Tools.Tile;
 import Tools.TileType;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by tristan on 26/09/16.
@@ -20,41 +24,55 @@ public class IA {
         information = Information.getInstance();
     }
 
-    public void Move() {
-        switch (aspiro.getDir()) {
-            case "up":
-                int newpos = aspiro.getPosY() - (int)aspiro.getBox().getHeight();
-                if (newpos >= 0 && ((Tile)map.get(newpos / 150).get(aspiro.getPosX() / 150)).getType()
-                        != TileType.TileTypes.wall)
-                    aspiro.Move("up");
-                else
-                    FindDirection("up");
-                break;
-            case "right":
-                newpos = aspiro.getPosX() + (int)aspiro.getBox().getWidth();
-                if (newpos < Map.MAPW && ((Tile)map.get(aspiro.getPosY() / 150).get(newpos / 150)).getType()
-                        != TileType.TileTypes.wall)
-                    aspiro.Move("right");
-                else
-                    FindDirection("right");
-                break;
-            case "down":
-                newpos = aspiro.getPosY() + (int)aspiro.getBox().getHeight();
-                if (newpos < Map.MAPH && ((Tile)map.get(newpos / 150).get(aspiro.getPosX() / 150)).getType()
-                        != TileType.TileTypes.wall)
-                    aspiro.Move("down");
-                else
-                    FindDirection("down");
-                break;
-            default:
-                newpos = aspiro.getPosX() - (int)aspiro.getBox().getWidth();
-                if (newpos >= 0 && ((Tile)map.get(aspiro.getPosY() / 150).get(newpos / 150)).getType()
-                        != TileType.TileTypes.wall)
-                    aspiro.Move("left");
-                else
-                    FindDirection("left");
-                break;
+    public void Move(GamePanel gamePanel) {
+        int smallX = aspiro.getPosListx();
+        int smallY = aspiro.getPosListy();
+        int small = aspiro.getMap()[smallY][smallX];
+        int cout = -1;
+
+        for(int y= 0;aspiro.getMap().length>y;y++){
+            for (int x= 0;aspiro.getMap()[y].length>x;x++){
+                if(0 <= aspiro.getMap()[y][x] && aspiro.getMap()[y][x] <= small){
+                    if(aspiro.getMap()[y][x] < small){
+                        small = aspiro.getMap()[y][x];
+                        smallY = y;
+                        smallX = x;
+                        cout = (abs(aspiro.getPosListy() - y) + abs(aspiro.getPosListx() - x));
+                    }
+                    else if(0  > cout || (abs(aspiro.getPosListy() - y) + abs(aspiro.getPosListx() - x)) < cout ){
+                        small = aspiro.getMap()[y][x];
+                        smallY = y;
+                        smallX = x;
+                        cout = (abs(aspiro.getPosListy() - y) + abs(aspiro.getPosListx() - x));
+                    }
+                }
+            }
         }
+
+        for(int i=0;(abs(aspiro.getPosListx() - smallX))!=i;i++){
+            if(0 > smallX - aspiro.getPosListx()){
+                aspiro.Move("left");
+
+            }else{
+                aspiro.Move("right");
+            }
+            gamePanel.repaintGame();
+        }
+
+        for(int i=0;(abs(aspiro.getPosListy() - smallY))!=i;i++){
+            if(0 > smallY - aspiro.getPosListy()){
+                aspiro.Move("up");
+            }else{
+                aspiro.Move("down");
+            }
+            gamePanel.repaintGame();
+        }
+
+        aspiro.setPosListy(smallY);
+        aspiro.setPosListx(smallX);
+
+        aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()] += 1;
+
     }
 
     private void FindDirection(String dir) {
@@ -62,7 +80,7 @@ public class IA {
             aspiro.setDir("up");
         else
             aspiro.setDir(Aspiro.Direction.values()[Aspiro.Direction.valueOf(dir).ordinal() + 1].name());
-        Move();
+       // Move();
     }
 
     public int Aspirate() {
@@ -77,7 +95,6 @@ public class IA {
         return 0;
     }
 
-    //si ya juste de la saleter
     public int PickUp() {
         if (((Tile)map.get(aspiro.getPosY() / 150).get(aspiro.getPosX() / 150)).getType()
                 == TileType.TileTypes.dirtjewelry) {
