@@ -59,6 +59,8 @@ public class Aspiro {
     }
 
     private void instanciateMap() {
+        //on cree un tableau de tableau contenant la map
+        // on affecte un valeur de visite initialiser a 0 et sera incrementer a chaque visite de l'aspirateur
         for(int i= 0;map.length>i;i++){
             for (int y= 0;map[i].length>y;y++){
                 if((0==i || 2==i) && (3==y || 4==y)){

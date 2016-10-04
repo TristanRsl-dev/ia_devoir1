@@ -2,10 +2,13 @@ package Robot;
 
 import Environment.Map;
 import Game.GamePanel;
+
+import Tools.Couple;
 import Tools.Tile;
 import Tools.TileType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -30,6 +33,8 @@ public class IA {
         int small = aspiro.getMap()[smallY][smallX];
         int cout = -1;
 
+        //on recherche la case ayant le plus petit nombre de visite
+
         for(int y= 0;aspiro.getMap().length>y;y++){
             for (int x= 0;aspiro.getMap()[y].length>x;x++){
                 if(0 <= aspiro.getMap()[y][x] && aspiro.getMap()[y][x] <= small){
@@ -49,30 +54,65 @@ public class IA {
             }
         }
 
-        for(int i=0;(abs(aspiro.getPosListx() - smallX))!=i;i++){
-            if(0 > smallX - aspiro.getPosListx()){
-                aspiro.Move("left");
+        //on a une cible avec la plus petite valeur de visite on souhaite y aller en passant par les case voisines
+        //ayant egalement la plus faible valeur visite;
 
-            }else{
-                aspiro.Move("right");
-            }
-            gamePanel.repaintGame();
-        }
+        String direction = "";
+        int values = Integer.MAX_VALUE;
 
         for(int i=0;(abs(aspiro.getPosListy() - smallY))!=i;i++){
             if(0 > smallY - aspiro.getPosListy()){
-                aspiro.Move("up");
+                if(aspiro.getMap()[aspiro.getPosListy()-1][aspiro.getPosListx()] == -1){
+                    break;
+                }
+                values = aspiro.getMap()[aspiro.getPosListy()-1][aspiro.getPosListx()];
+                direction = "up";
+                smallX = aspiro.getPosListx();
+                smallY = aspiro.getPosListy()-1;
+                break;
             }else{
-                aspiro.Move("down");
+                if(aspiro.getMap()[aspiro.getPosListy()+1][aspiro.getPosListx()] == -1){
+                    break;
+                }
+                values = aspiro.getMap()[aspiro.getPosListy()+1][aspiro.getPosListx()];
+                direction = "down";
+                smallX = aspiro.getPosListx();
+                smallY = aspiro.getPosListy()+1;
+                break;
             }
-            gamePanel.repaintGame();
         }
 
+        for(int i=0;(abs(aspiro.getPosListx() - smallX))!=i;i++){
+            if(0 > smallX - aspiro.getPosListx()){
+                if(aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()-1] != -1 &&
+                        values >= aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()-1]){
+                    values = aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()-1];
+                    direction = "left";
+                    smallX = aspiro.getPosListx()-1;
+                    smallY = aspiro.getPosListy();
+                }
+                break;
+            }else{
+                if(aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()+1] != -1 &&
+                        values >= aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()+1]){
+                    values = aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()+1];
+                    direction = "right";
+                    smallX = aspiro.getPosListx()+1;
+                    smallY = aspiro.getPosListy();
+                }
+                break;
+            }
+
+        }
+
+        if(!direction.equals("")) {
+            aspiro.Move(direction);
+        }
         aspiro.setPosListy(smallY);
         aspiro.setPosListx(smallX);
 
         aspiro.getMap()[aspiro.getPosListy()][aspiro.getPosListx()] += 1;
-
+        //peut etre +2 pour la case du fond
     }
 
     private void FindDirection(String dir) {
